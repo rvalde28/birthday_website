@@ -18,21 +18,56 @@ export default {
   },
   methods: {
     changeMessageMentirosa(){
+      var eventStartTime = +new Date()- +new Date("2024-03-22T05:00:00.000Z")
+      const timeDifferenceInHours = eventStartTime / (1000 * 60 * 60);
+
+      const hours = Math.floor(timeDifferenceInHours * -1)
+      const days = Math.floor(hours/24)+1
+      console.log(days)
       this.msg = 'A que no hermosa todavia no.... 🥲💔'
-      this.isHidden = true
-      this.showSecond = true
+
+      if (days < 2){
+        this.msg = this.msg + " pero ya mero!!"
+        this.thirdGifShow=false
+
+      }
+
+      if (days < 2){
+        this.msg = this.msg + " ya falta menos de un dia!!"
+        this.thirdGifShow=false
+
+      }
+
+      if (days === 0){
+        this.msg = `¡¡Ya es tu dia hermosa ahora si!!`
+        this.birthday = true
+        this.firstGifShow=false
+        this.showSecond = false
+        this.thirdGifShow=false
+        this.isHidden = true
+
+      }else{
+        this.isHidden = true
+        this.showSecond = true
+      }
     },
     changeMessageWithDaysLeft(){
       this.isHidden = true
       this.firstGifShow=false
       this.thirdGifShow= true
-      var eventStartTime = +new Date()- +new Date("2024-03-22T00:00:00.000Z")
+      var eventStartTime = +new Date()- +new Date("2024-03-22T05:00:00.000Z")
       const timeDifferenceInHours = eventStartTime / (1000 * 60 * 60);
 
-      const hours = Math.ceil(timeDifferenceInHours * -1)
-      const days = Math.ceil(hours/24)+1
+      const hours = Math.floor(timeDifferenceInHours * -1)
+      const days = Math.floor(hours/24)+1
       console.log(days)
-      this.msg = `¡¡Ya mero llega tu dia especial, solo faltan ${days} dias!! Por lo tanto tienes que esperar mi niña hermosa...`
+      this.msg = `¡¡Ya mero llega tu dia especial, solo faltan ${hours} horas!! Por lo tanto tienes que esperar mi niña hermosa...`
+
+      if (days === 0){
+        this.msg = `¡¡Ya es tu dia hermosa ahora si!!`
+        this.birthday = true
+        this.thirdGifShow=false
+      }
     },
     changeMessageSecondGif(){
       this.msg = 'Te dejo con un show privado y exclusivo😉'
@@ -40,7 +75,15 @@ export default {
       this.firstGifShow = false
       this.secondGifShow= true
       this.showSecond=false
+      this.birthday=false
     },
+    birthdayButton(){      
+      this.birthday=true
+      this.showSecond=false
+      this.thirdGifShow=false
+      window.location.href = 'https://rvalde28.github.io/feliz_cupleanos/';
+
+    }
   },
   components: {
     MessageComponent,
@@ -65,6 +108,9 @@ export default {
     <div v-if="thirdGifShow">
       <img v-if="thirdGifShow"  class="birthday-gif" src="./assets/gifs/frida_website/no-its-not.gif"/>
     </div>
+    <div v-if="birthday">
+      <img v-if="birthday"  class="birthday-gif" src="./assets/gifs/frida_website/page-start.gif"/>
+    </div>
   </div>
   <div class="background">
     <div class="wrapper">
@@ -77,7 +123,10 @@ export default {
     </div>
     <div v-if="showSecond" class="buttons center ">
       <button v-if="showSecond" class="button-response single-button" v-on:click="changeMessageSecondGif()">Quieres premio consolativo?</button>
+    </div>
 
+    <div v-if="birthday" class="buttons center ">
+      <button v-if="birthday" class="button-response single-button" v-on:click="birthdayButton()">Take me</button>
     </div>
 
   </div>
